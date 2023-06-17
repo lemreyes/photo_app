@@ -19,13 +19,13 @@ export default function Uploader() {
 
     console.log("fileObj is", fileObj);
 
-    // 👇️ reset file input
+    // reset file input
     event.target.value = "";
 
-    // 👇️ is now empty
+    // is now empty
     console.log(event.target.files);
 
-    // 👇️ can still access file object here
+    // can still access file object here
     console.log(fileObj);
     console.log(fileObj.name);
   };
