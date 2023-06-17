@@ -17,7 +17,7 @@ export default function ImageUploader() {
           </p>
         </div>
         <p className="mt-4 text-center text-xs text-gray-400">Or</p>
-        <button className="bg-blue-500 rounded-[8px] text-white px-4 py-2 text-xs mt-6">Choose a file</button>
+        <button className="bg-blue-500 hover:bg-blue-200 rounded-[8px] text-white hover:text-gray-700 px-4 py-2 text-xs mt-6">Choose a file</button>
       </div>
     </div>
   );
