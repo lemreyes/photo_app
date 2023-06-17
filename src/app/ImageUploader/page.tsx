@@ -1,19 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Uploader from "./Components/Uploader";
+import ProgressBar from "./Components/ProgressBar";
 
 export default function ImageUploader() {
   const [uploadState, setUploadState] = useState<string | undefined>("init");
 
-  setUploadState("init");
+  useEffect(() => {
+    setUploadState("uploading");
+  }, []);
 
-  // render based on upload state
-  if (uploadState === "init") {
-    return <Uploader />;
-  } else if (uploadState === "uploading") {
-  } else if (uploadState === "finish") {
-  } else {
-    // nothing
-  }
+  return (
+    <div className="flex flex-col items-center justify-center w-screen h-screen">
+      {uploadState === "init" && <Uploader />}
+      {uploadState === "uploading" && <ProgressBar />}
+    </div>
+  );
 }
