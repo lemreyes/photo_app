@@ -54,6 +54,7 @@ export default function Uploader() {
         ref={fileRef}
         type="file"
         onChange={handleFileChange}
+        accept=".jpg, .jpeg, .png"
       />
     </div>
   );
