@@ -1,9 +1,10 @@
-import React, { ChangeEvent, useRef } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import image_placeholder from "../../../../public/image_placeholder.svg";
 
 export default function Uploader() {
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const [srcPreview, setSrcPreview] = useState("");
 
   const handleClick = () => {
     if (fileRef.current) {
@@ -28,6 +29,11 @@ export default function Uploader() {
     // can still access file object here
     console.log(fileObj);
     console.log(fileObj.name);
+
+    let src = URL.createObjectURL(fileObj);
+    console.log("Source file: ", src);
+
+    setSrcPreview(src);
   };
 
   return (
@@ -37,7 +43,11 @@ export default function Uploader() {
         File should be jpeg, png...
       </p>
       <div className="flex flex-col items-center justify-center border border-[#97BEF4] rounded-xl border-dashed mt-8 p-10">
-        <Image src={image_placeholder} alt="upload" priority />
+        {srcPreview === "" ? (
+          <Image src={image_placeholder} alt="upload" priority />
+        ) : (
+          <Image src={srcPreview} alt="upload" width={338} height={218} priority />
+        )}
         <p className="mt-4 text-center text-xs text-gray-400">
           Drag & Drop your image here
         </p>
