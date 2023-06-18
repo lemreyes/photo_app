@@ -56,6 +56,10 @@ export default function Uploader() {
         onChange={handleFileChange}
         accept=".jpg, .jpeg, .png"
       />
+
+      <button className="bg-[#219653] hover:bg-[#6ceba3] rounded-lg text-white hover:text-gray-700 px-4 py-2 text-lg mt-12 min-w-[258px]">
+        Upload
+      </button>
     </div>
   );
 }
