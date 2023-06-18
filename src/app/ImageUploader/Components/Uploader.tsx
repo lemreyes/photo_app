@@ -18,21 +18,10 @@ export default function Uploader() {
       return;
     }
 
-    console.log("fileObj is", fileObj);
-
     // reset file input
     event.target.value = "";
 
-    // is now empty
-    console.log(event.target.files);
-
-    // can still access file object here
-    console.log(fileObj);
-    console.log(fileObj.name);
-
-    let src = URL.createObjectURL(fileObj);
-    console.log("Source file: ", src);
-
+    const src = URL.createObjectURL(fileObj);
     setSrcPreview(src);
   };
 
