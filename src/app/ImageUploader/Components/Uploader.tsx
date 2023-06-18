@@ -35,7 +35,14 @@ export default function Uploader() {
         {srcPreview === "" ? (
           <Image src={image_placeholder} alt="upload" priority />
         ) : (
-          <Image src={srcPreview} alt="upload" width={338} height={218} priority />
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={srcPreview}
+            alt="upload"
+            width={114}
+            height={"auto"}
+            loading={"lazy"}
+          />
         )}
         <p className="mt-4 text-center text-xs text-gray-400">
           Drag & Drop your image here
