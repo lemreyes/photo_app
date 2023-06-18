@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useRef } from "react";
 import Image from "next/image";
-import upload_icon from "../../../../public/image_upload_icon.svg";
+import image_placeholder from "../../../../public/image_placeholder.svg";
 
 export default function Uploader() {
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -37,7 +37,7 @@ export default function Uploader() {
         File should be jpeg, png...
       </p>
       <div className="flex flex-col items-center justify-center border border-[#97BEF4] rounded-xl border-dashed mt-8 p-10">
-        <Image src={upload_icon} alt="upload" priority />
+        <Image src={image_placeholder} alt="upload" priority />
         <p className="mt-4 text-center text-xs text-gray-400">
           Drag & Drop your image here
         </p>
@@ -56,9 +56,8 @@ export default function Uploader() {
         onChange={handleFileChange}
         accept=".jpg, .jpeg, .png"
       />
-
-      <button className="bg-[#219653] hover:bg-[#6ceba3] rounded-lg text-white hover:text-gray-700 px-4 py-2 text-lg mt-12 min-w-[258px]">
-        Upload
+      <button className="bg-[#219653] hover:bg-[#6ceba3] rounded-lg text-white hover:text-gray-700 px-4 py-2 text-lg mt-12 min-w-[258px] flex items-center justify-center gap-x-2">
+        <span>Upload</span>
       </button>
     </div>
   );
