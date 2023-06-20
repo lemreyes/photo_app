@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, DragEvent, useRef, useState } from "react";
 import Image from "next/image";
 import image_placeholder from "../../../../public/image_placeholder.svg";
 
@@ -25,13 +25,35 @@ export default function Uploader() {
     setSrcPreview(src);
   };
 
+  const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const fileObj = event.dataTransfer.files[0];
+    if (!fileObj) {
+      return;
+    }
+
+    console.log("fileObj", fileObj);
+
+    const src = URL.createObjectURL(fileObj);
+    console.log("src", src);
+    setSrcPreview(src);
+  };
+
+  const handleOnDragOver = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <div className="flex flex-col items-center justify-center shadow-lg rounded-xl px-8 py-10">
       <h1 className="text-center text-lg text-gray-700">Upload your image</h1>
       <p className="text-center text-xs text-gray-400 mt-2">
         File should be jpeg, png...
       </p>
-      <div className="flex flex-col items-center justify-center border border-[#97BEF4] rounded-xl border-dashed mt-8 p-10">
+      <div
+        className="flex flex-col items-center justify-center border border-[#97BEF4] rounded-xl border-dashed mt-8 p-10"
+        onDrop={handleOnDrop}
+        onDragOver={handleOnDragOver}
+      >
         {srcPreview === "" ? (
           <Image src={image_placeholder} alt="upload" priority />
         ) : (
