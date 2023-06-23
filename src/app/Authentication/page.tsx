@@ -11,11 +11,12 @@ import Link from "next/link";
 const noto_sans = Noto_Sans({ weight: ["400", "600"], subsets: ["latin"] });
 
 export default function Authentication() {
+  
   return (
     <div
       className={`${noto_sans.className} flex flex-col items-center justify-center w-screen h-screen`}
     >
-      <div className="flex flex-col items-start justify-center shadow-lg rounded-xl px-8 py-10  max-w-[473px]">
+      <div className="flex flex-col items-start justify-center shadow-lg rounded-xl px-16 py-10  max-w-[473px]">
         <Logo />
         <p className="mt-8 text-lg font-semibold text-[#333333]">
           Join thousands of learners from around the world{" "}
