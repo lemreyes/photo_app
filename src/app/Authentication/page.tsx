@@ -4,6 +4,7 @@ import Logo from "./Components/Logo";
 
 import Link from "next/link";
 import SocialAccountPanel from "./Components/SocialAccountPanel";
+import CredentialsForm from "./Components/CredentialsForm";
 
 const noto_sans = Noto_Sans({ weight: ["400", "600"], subsets: ["latin"] });
 
@@ -21,21 +22,7 @@ export default function Authentication() {
           Master web development by making real-life projects. There are
           multiple paths for you to choose
         </p>
-        <form method="POST">
-          <input
-            type="text"
-            placeholder="Email"
-            className="w-full border rounded-lg border-color-[#BDBDBD] text-[#828282] mt-8 p-2"
-          ></input>
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full border rounded-lg border-color-[#BDBDBD] text-[#828282] mt-2 p-2"
-          ></input>
-          <button className="w-full bg-[#2F80ED] text-white rounded-lg mt-4 p-2">
-            Start coding now
-          </button>
-        </form>
+        <CredentialsForm />
         <SocialAccountPanel />
         <p className="mt-8 text-sm text-[#828282] font-normal self-center">
           Already a member?{" "}
