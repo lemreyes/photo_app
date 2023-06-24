@@ -1,4 +1,5 @@
 import React from "react";
+import email_icon from "../../../../public/authentication/email_icon.svg";
 
 export default function CredentialsForm() {
   return (
