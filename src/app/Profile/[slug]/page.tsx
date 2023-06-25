@@ -6,7 +6,7 @@ const noto_sans = Noto_Sans({ weight: ["400", "600", "700"], subsets: ["latin"] 
 
 export default function Profile() {
   return (
-    <div className={`${noto_sans.className} px-18`}>
+    <div className={`${noto_sans.className} px-18 flex flex-col`}>
       <ProfileHeader />
     </div>
   );
