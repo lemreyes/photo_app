@@ -20,15 +20,20 @@ export default function Profile() {
         <h2 className="text-lg font-light tracking-tighter">
           Basic info, like your name and photo
         </h2>
-        <div className="border border-[#E0E0E0] rounded-xl mt-8">
-          <div className="py-8 px-16 flex flex-row">
+        <div className="border border-[#E0E0E0] rounded-xl mt-8 w-4/5">
+          <div className="py-8 px-16 flex flex-row justify-between border-b-[1px]">
             <div>
               <h2 className="text-2xl tracking-tighter">Profile</h2>
-              <p className="text-xs text-[#828282] font-medium tracking-tighter">Some info may be visible to other people</p>
+              <p className="text-xs text-[#828282] font-medium tracking-tighter">
+                Some info may be visible to other people
+              </p>
             </div>
-            <button className="border rounded-lg tracking-tighter text-[#828282] px-8 py-1 text-sm">Edit</button>
+            <button className="border rounded-lg tracking-tighter text-[#828282] px-8 text-sm">
+              Edit
+            </button>
           </div>
-          <div>Photo</div>
+          <div className="py-8 px-16 border-b-[1px]">Photo</div>
+          <div className="py-8 px-16">Bio</div>
         </div>
       </div>
     </>
