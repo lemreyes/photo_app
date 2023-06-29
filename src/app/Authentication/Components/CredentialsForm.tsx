@@ -13,7 +13,7 @@ import password_icon_ng from "../../../../public/authentication/password_icon_ng
 
 import { getInputStyle } from "@/utils/InputStyles";
 
-export default function CredentialsForm() {
+export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [password, setPassword] = useState("");
@@ -36,13 +36,21 @@ export default function CredentialsForm() {
         ? email_icon_ok
         : email_icon_ng
       : email_icon;
-  let passwordStyle = getInputStyle(password, isValidPassword);
-  let passwordIconSrc =
-    password.length > 0
-      ? isValidPassword
-        ? password_icon_ok
-        : password_icon_ng
-      : password_icon;
+
+  let passwordStyle = "";
+  let passwordIconSrc = "";
+  if (isLogin === true) {
+    passwordStyle = "border-color-[#BDBDBD] text-[#828282]";
+    passwordIconSrc = password_icon;
+  } else {
+    passwordStyle = getInputStyle(password, isValidPassword);
+    passwordIconSrc =
+      password.length > 0
+        ? isValidPassword
+          ? password_icon_ok
+          : password_icon_ng
+        : password_icon;
+  }
 
   return (
     <form method="POST">
@@ -75,7 +83,7 @@ export default function CredentialsForm() {
         ></input>
       </label>
       <button className="w-full bg-[#2F80ED] text-white rounded-lg mt-4 p-2">
-        Login
+        {isLogin === true ? "Login" : "Signup"}
       </button>
     </form>
   );

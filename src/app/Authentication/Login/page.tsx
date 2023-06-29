@@ -14,7 +14,7 @@ export default function Login() {
     >
       <div className="flex flex-col items-start justify-center shadow-lg rounded-xl px-16 py-10  max-w-[473px]">
         <Logo />
-        <CredentialsForm />
+        <CredentialsForm isLogin={true} />
         <SocialAccountPanel />
         <p className="mt-8 text-sm text-[#828282] font-normal self-center">
           Don&apos;t have an account yet?{" "}
