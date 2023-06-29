@@ -19,6 +19,23 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
   const [password, setPassword] = useState("");
   const [isValidPassword, setIsValidPassword] = useState(false);
 
+  const handleLogin = () => {};
+
+  const handleSignup = async () => {
+    const response = await fetch("http://localhost:3000/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-type": "application.json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    console.log("response", response);
+  };
+
   const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsValidEmail(validator.isEmail(event.target.value));
     setEmail(event.target.value);
@@ -82,7 +99,10 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
           onChange={handleChangePassword}
         ></input>
       </label>
-      <button className="w-full bg-[#2F80ED] text-white rounded-lg mt-4 p-2">
+      <button
+        className="w-full bg-[#2F80ED] text-white rounded-lg mt-4 p-2"
+        onClick={isLogin === true ? handleLogin : handleSignup}
+      >
         {isLogin === true ? "Login" : "Signup"}
       </button>
     </form>
