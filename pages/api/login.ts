@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient } from "@prisma/client";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import * as jose from "jose";
 import { setCookie } from "cookies-next";
-import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -11,14 +11,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { email, password } = req.body;
   let errors: string[] = [];
-
-  console.log(req.body);
+  const { email, password } = req.body;
   console.log(email, password);
 
   // validate
-  errors = validateSignupInputParam(email, password);
+  errors = validateLoginInputParam(email, password);
   console.log(errors);
   if (errors.length > 0) {
     return res.status(400).json({
@@ -26,30 +24,27 @@ export default async function handler(
     });
   }
 
-  // check if already existing email
-  const userEmail = await prisma.user.findUnique({
+  // get the user via email
+  const user = await prisma.user.findUnique({
     where: {
       email,
     },
   });
-  if (userEmail) {
+  if (!user) {
     return res
-      .status(400)
-      .json({ errorMessage: "Email is associated with another account." });
+      .status(401)
+      .json({ errorMessage: "Email or password is invalid" });
   }
 
-  // hash password
-  const hashedPassword = await bcrypt.hash(password, 10);
+  // compare the password
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
+  if (!isPasswordMatch) {
+    return res
+      .status(401)
+      .json({ errorMessage: "Email or password is invalid" });
+  }
 
-  // data valid - store to DB
-  const user = await prisma.user.create({
-    data: {
-      email: email,
-      password: hashedPassword,
-    },
-  });
-  console.log(user);
-
+  // set jwt and cookie
   const alg = "HS256";
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
@@ -60,12 +55,14 @@ export default async function handler(
 
   setCookie("jwt", token, { req, res, maxAge: 60 * 6 * 24 });
 
-  res.status(200).json({
+  return res.status(200).json({
+    firstName: user.first_name,
+    lastName: user.last_name,
     email: user.email,
   });
 }
 
-function validateSignupInputParam(email: string, password: string) {
+function validateLoginInputParam(email: string, password: string) {
   let errors: string[] = [];
 
   const validationSchema = [
@@ -74,8 +71,8 @@ function validateSignupInputParam(email: string, password: string) {
       errorMessage: "Email is invalid",
     },
     {
-      valid: validator.isStrongPassword(password),
-      errorMessage: "Password is not strong enough",
+      valid: validator.isLength(password, { min: 1 }),
+      errorMessage: "Password is invalid",
     },
   ];
 
