@@ -19,13 +19,26 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
   const [password, setPassword] = useState("");
   const [isValidPassword, setIsValidPassword] = useState(false);
 
-  const handleLogin = () => {};
+  const handleLogin = async () => {
+    const response = await fetch("http://localhost:3000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    console.log("response", response);
+  };
 
   const handleSignup = async () => {
     const response = await fetch("http://localhost:3000/api/signup", {
       method: "POST",
       headers: {
-        "Content-type": "application.json",
+        "Content-type": "application/json",
       },
       body: JSON.stringify({
         email,

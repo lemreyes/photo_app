@@ -13,7 +13,6 @@ export default async function handler(
 ) {
   let errors: string[] = [];
   const { email, password } = req.body;
-  console.log(email, password);
 
   // validate
   errors = validateLoginInputParam(email, password);
