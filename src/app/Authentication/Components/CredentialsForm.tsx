@@ -36,6 +36,7 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
       });
 
       // redirect to the profile page after successful login
+      // TODO: need to redirect to the correct slug, not ANY
       router.push("/Profile/any");
     } catch (error: any) {
       setErrorMessage(error);
