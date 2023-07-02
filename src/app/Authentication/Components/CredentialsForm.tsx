@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import validator from "validator";
 
@@ -18,20 +19,27 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [password, setPassword] = useState("");
   const [isValidPassword, setIsValidPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   const handleLogin = async () => {
-    const response = await fetch("http://localhost:3000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-    console.log("response", response);
+      // redirect to the profile page after successful login
+      router.push("/Profile/any");
+    } catch (error: any) {
+      setErrorMessage(error);
+    }
   };
 
   const handleSignup = async () => {
