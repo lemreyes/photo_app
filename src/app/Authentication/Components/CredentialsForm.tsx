@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import validator from "validator";
@@ -20,6 +20,7 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
   const [password, setPassword] = useState("");
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isButtonDisable, setIsButtonDisable] = useState(true);
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -38,7 +39,6 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
       const jsonData = await response.json();
 
       if (!response.ok) {
-        console.log("throw");
         throw new Error(jsonData.error);
       }
 
@@ -76,6 +76,12 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
     setIsValidPassword(validator.isStrongPassword(event.target.value));
     setPassword(event.target.value);
   };
+
+  useEffect(() => {
+    if (isValidEmail === true && isValidPassword === true) {
+      setIsButtonDisable(false);
+    }
+  }, [isValidEmail, isValidPassword]);
 
   let emailStyle = getInputStyle(email, isValidEmail);
   let emailIconSrc =
@@ -132,8 +138,12 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
           ></input>
         </label>
         <button
-          className="w-full bg-[#2F80ED] text-white rounded-lg mt-4 p-2"
+          className={
+            `w-full bg-[#2F80ED] text-white rounded-lg mt-4 p-2 ` +
+            `${isButtonDisable ? `opacity-50 cursor-not-allowed` : ""}`
+          }
           onClick={isLogin === true ? handleLogin : handleSignup}
+          disabled={isButtonDisable}
         >
           {isLogin === true ? "Login" : "Signup"}
         </button>
