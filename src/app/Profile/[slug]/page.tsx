@@ -33,7 +33,7 @@ export default function Profile() {
             </button>
           </div>
           <div className="py-8 px-16 border-b-[1px]">Photo</div>
-          <div className="py-8 px-16">Bio</div>
+          <div className="py-8 px-16">Name</div>
         </div>
       </div>
     </>

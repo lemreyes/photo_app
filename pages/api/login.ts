@@ -19,7 +19,7 @@ export default async function handler(
   console.log(errors);
   if (errors.length > 0) {
     return res.status(400).json({
-      errorMessage: errors[0],
+      error: errors[0],
     });
   }
 
@@ -32,7 +32,7 @@ export default async function handler(
   if (!user) {
     return res
       .status(401)
-      .json({ errorMessage: "Email or password is invalid" });
+      .json({ error: "Email or password is invalid" });
   }
 
   // compare the password
@@ -40,7 +40,7 @@ export default async function handler(
   if (!isPasswordMatch) {
     return res
       .status(401)
-      .json({ errorMessage: "Email or password is invalid" });
+      .json({ error: "Email or password is invalid" });
   }
 
   // set jwt and cookie
