@@ -11,7 +11,12 @@ import github_icon from "../../../../public/authentication/Gihub.svg";
 export default function SocialAccountPanel() {
   const hdlOnClickGoogle = async () => {
     const response = await signIn("google");
-    console.log("Sign in Response: ", response);
+    console.log("Sign in Response Google: ", response);
+  };
+
+  const hdlOnClickFacebook = async () => {
+    const response = await signIn("facebook");
+    console.log("Sign in Response Facebook: ", response);
   };
 
   return (
@@ -23,7 +28,9 @@ export default function SocialAccountPanel() {
         <button onClick={hdlOnClickGoogle}>
           <Image src={google_icon} alt="Google" />
         </button>
-        <Image src={facebook_icon} alt="Facebook" />
+        <button onClick={hdlOnClickFacebook}>
+          <Image src={facebook_icon} alt="Facebook" />
+        </button>
         <Image src={twitter_icon} alt="Twitter" />
         <Image src={github_icon} alt="Github" />
       </div>
