@@ -19,6 +19,11 @@ export default function SocialAccountPanel() {
     console.log("Sign in Response Facebook: ", response);
   };
 
+  const hdlOnClickTwitter = async () => {
+    const response = await signIn("twitter");
+    console.log("Sign in Response Twitter: ", response);
+  };
+
   return (
     <>
       <p className="mt-8 text-sm text-[#828282] font-normal self-center">
@@ -31,7 +36,9 @@ export default function SocialAccountPanel() {
         <button onClick={hdlOnClickFacebook}>
           <Image src={facebook_icon} alt="Facebook" />
         </button>
-        <Image src={twitter_icon} alt="Twitter" />
+        <button onClick={hdlOnClickTwitter}>
+          <Image src={twitter_icon} alt="Twitter" />
+        </button>
         <Image src={github_icon} alt="Github" />
       </div>
     </>
