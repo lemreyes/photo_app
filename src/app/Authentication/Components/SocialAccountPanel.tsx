@@ -24,6 +24,11 @@ export default function SocialAccountPanel() {
     console.log("Sign in Response Twitter: ", response);
   };
 
+  const hdlOnClickGithub = async () => {
+    const response = await signIn("github");
+    console.log("Sign in Response Github: ", response);
+  };
+
   return (
     <>
       <p className="mt-8 text-sm text-[#828282] font-normal self-center">
@@ -39,7 +44,9 @@ export default function SocialAccountPanel() {
         <button onClick={hdlOnClickTwitter}>
           <Image src={twitter_icon} alt="Twitter" />
         </button>
-        <Image src={github_icon} alt="Github" />
+        <button onClick={hdlOnClickGithub}>
+          <Image src={github_icon} alt="Github" />
+        </button>
       </div>
     </>
   );
