@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import { useSession, signIn, signOut } from "next-auth/react";
 
 import google_icon from "../../../../public/authentication/Google.svg";
+import google_icon_hover from "../../../../public/authentication/google_hover.svg"
 import facebook_icon from "../../../../public/authentication/Facebook.svg";
-import twitter_icon from "../../../../public/authentication/Twitter.svg";
-import github_icon from "../../../../public/authentication/Gihub.svg";
+import facebook_icon_hover from "../../../../public/authentication/facebook_hover.svg";
 
 export default function SocialAccountPanel() {
+  const [isHoverFb, setIsHoverFb] = useState(false);
+  const [isHoverGoogle, setIsHoverGoogle] = useState(false);
+
   const hdlOnClickGoogle = async () => {
     const response = await signIn("google");
     console.log("Sign in Response Google: ", response);
@@ -19,14 +22,20 @@ export default function SocialAccountPanel() {
     console.log("Sign in Response Facebook: ", response);
   };
 
-  const hdlOnClickTwitter = async () => {
-    const response = await signIn("twitter");
-    console.log("Sign in Response Twitter: ", response);
+  const hdlFbMouseEnter = () => {
+    setIsHoverFb(true);
   };
 
-  const hdlOnClickGithub = async () => {
-    const response = await signIn("github");
-    console.log("Sign in Response Github: ", response);
+  const hdlFbMouseLeave = () => {
+    setIsHoverFb(false);
+  };
+
+  const hdlGoogleMouseEnter = () => {
+    setIsHoverGoogle(true);
+  };
+
+  const hdlGoogleMouseLeave = () => {
+    setIsHoverGoogle(false);
   };
 
   return (
@@ -34,18 +43,22 @@ export default function SocialAccountPanel() {
       <p className="mt-8 text-sm text-[#828282] font-normal self-center">
         or continue with these social profiles
       </p>
-      <div className="flex mt-4 self-center space-x-4">
+      <div className="flex mt-4 self-center space-x-8">
         <button onClick={hdlOnClickGoogle}>
-          <Image src={google_icon} alt="Google" />
+          <Image
+            src={isHoverGoogle ? google_icon_hover : google_icon}
+            alt="Google"
+            onMouseEnter={hdlGoogleMouseEnter}
+            onMouseLeave={hdlGoogleMouseLeave}
+          />
         </button>
         <button onClick={hdlOnClickFacebook}>
-          <Image src={facebook_icon} alt="Facebook" />
-        </button>
-        <button onClick={hdlOnClickTwitter}>
-          <Image src={twitter_icon} alt="Twitter" />
-        </button>
-        <button onClick={hdlOnClickGithub}>
-          <Image src={github_icon} alt="Github" />
+          <Image
+            src={isHoverFb ? facebook_icon_hover : facebook_icon}
+            alt="Facebook"
+            onMouseEnter={hdlFbMouseEnter}
+            onMouseLeave={hdlFbMouseLeave}
+          />
         </button>
       </div>
     </>
