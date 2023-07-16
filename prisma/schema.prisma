@@ -20,6 +20,7 @@ model User {
   password   String
   slug       String?   @unique
   pictures   Picture[]
+  username   String?   @unique
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now())
 }
