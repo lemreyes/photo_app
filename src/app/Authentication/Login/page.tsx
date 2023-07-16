@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Noto_Sans } from "next/font/google";
 import Logo from "../Components/Logo";

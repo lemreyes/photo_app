@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import validator from "validator";
+import { signIn } from "next-auth/react";
 
 import email_icon from "../../../../public/authentication/email_icon.svg";
 import email_icon_ok from "../../../../public/authentication/email_icon_ok.svg";
@@ -25,28 +26,16 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+      const response = await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/Profile/any",
+        redirect: false,
       });
 
-      const jsonData = await response.json();
+      console.log("SignIn: ", response);
 
-      if (!response.ok) {
-        throw new Error(jsonData.error);
-      }
-
-      // redirect to the profile page after successful login
-      // TODO: need to redirect to the correct slug, not ANY
-      router.push("/Profile/any");
-
-      console.log("response", response);
+      // TODO Error handling
     } catch (error: any) {
       setErrorMessage(error.message);
     }
