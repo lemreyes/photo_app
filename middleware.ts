@@ -7,6 +7,14 @@ export async function middleware(req: NextRequest, res: NextResponse) {
   // get bearer token from authorization header
   const bearerToken = req.headers.get("authorization") as string;
   console.log(bearerToken);
+  if (!bearerToken) {
+    return new NextResponse(
+      JSON.stringify({
+        errorMessage: "Unauthorized request",
+      }),
+      { status: 401 }
+    );
+  }
 
   // extract token
   const token = bearerToken.split(" ")[1];
@@ -37,5 +45,5 @@ export async function middleware(req: NextRequest, res: NextResponse) {
 }
 
 export const config = {
-  matcher: "/api/updateProfile",
+  matcher: ["/api/updateProfile", "/ImageUploader"],
 };

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 import google_icon from "../../../../public/authentication/Google.svg";
-import google_icon_hover from "../../../../public/authentication/google_hover.svg"
+import google_icon_hover from "../../../../public/authentication/google_hover.svg";
 import facebook_icon from "../../../../public/authentication/Facebook.svg";
 import facebook_icon_hover from "../../../../public/authentication/facebook_hover.svg";
 
