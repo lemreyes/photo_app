@@ -2,16 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import * as jose from "jose";
-import { setCookie } from "cookies-next";
 import { PrismaClient } from "@prisma/client";
+import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { email, password } = req.body;
+export async function POST(req: Request, res: NextApiResponse) {
+  const { email, password } = await req.json()
   let errors: string[] = [];
 
   console.log(req.body);
@@ -21,9 +18,12 @@ export default async function handler(
   errors = validateSignupInputParam(email, password);
   console.log(errors);
   if (errors.length > 0) {
-    return res.status(400).json({
-      errorMessage: errors[0],
-    });
+    return new NextResponse(
+      JSON.stringify({
+        status: 400,
+        errorMessage: errors[0],
+      })
+    );
   }
 
   // check if already existing email
@@ -33,9 +33,12 @@ export default async function handler(
     },
   });
   if (userEmail) {
-    return res
-      .status(400)
-      .json({ errorMessage: "Email is associated with another account." });
+    return new NextResponse(
+      JSON.stringify({
+        status: 400,
+        errorMessage: "Email is associated with another account.",
+      })
+    );
   }
 
   // hash password
@@ -58,11 +61,12 @@ export default async function handler(
     .setExpirationTime("24h")
     .sign(secret);
 
-  setCookie("jwt", token, { req, res, maxAge: 60 * 6 * 24 });
-
-  res.status(200).json({
-    email: user.email,
-  });
+  return new NextResponse(
+    JSON.stringify({
+      status: 200,
+      email: user.email,
+    })
+  );
 }
 
 function validateSignupInputParam(email: string, password: string) {
