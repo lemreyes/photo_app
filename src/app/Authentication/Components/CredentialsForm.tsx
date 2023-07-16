@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import validator from "validator";
-import { signIn } from "next-auth/react";
+import { SignInResponse, signIn } from "next-auth/react";
 
 import email_icon from "../../../../public/authentication/email_icon.svg";
 import email_icon_ok from "../../../../public/authentication/email_icon_ok.svg";
@@ -26,18 +26,21 @@ export default function CredentialsForm({ isLogin }: { isLogin: boolean }) {
 
   const handleLogin = async () => {
     try {
-      const response = await signIn("credentials", {
+      const response: SignInResponse = (await signIn("credentials", {
         email,
         password,
         callbackUrl: "/Profile/any",
         redirect: false,
-      });
+      })) as SignInResponse;
 
       console.log("SignIn: ", response);
+      if (response.error != null) {
+        throw Error(response.error);
+      }
 
-      // TODO Error handling
+      router.push("/Profile/any");
     } catch (error: any) {
-      setErrorMessage(error.message);
+      setErrorMessage("Invalid login or password");
     }
   };
 
