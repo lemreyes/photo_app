@@ -5,6 +5,7 @@ import image_placeholder from "../../../../public/image_placeholder.svg";
 export default function Uploader() {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [srcPreview, setSrcPreview] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleClick = () => {
     if (fileRef.current) {
@@ -23,6 +24,23 @@ export default function Uploader() {
 
     const src = URL.createObjectURL(fileObj);
     setSrcPreview(src);
+    setImageFile(fileObj);
+  };
+
+  const handleFileUpload = async () => {
+    if (!imageFile) {
+      return;
+    }
+    console.log("Upload: ", imageFile);
+
+    const body = new FormData();
+    body.append("file", imageFile);
+    console.log("BODY: ", body);
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body,
+    });
   };
 
   const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {
@@ -37,6 +55,7 @@ export default function Uploader() {
     const src = URL.createObjectURL(fileObj);
     console.log("src", src);
     setSrcPreview(src);
+    setImageFile(fileObj);
   };
 
   const handleOnDragOver = (event: DragEvent<HTMLDivElement>) => {
@@ -84,7 +103,10 @@ export default function Uploader() {
         onChange={handleFileChange}
         accept=".jpg, .jpeg, .png"
       />
-      <button className="bg-[#219653] hover:bg-[#6ceba3] rounded-lg text-white hover:text-gray-700 px-4 py-2 text-lg mt-12 min-w-[258px] flex items-center justify-center gap-x-2">
+      <button
+        className="bg-[#219653] hover:bg-[#6ceba3] rounded-lg text-white hover:text-gray-700 px-4 py-2 text-lg mt-12 min-w-[258px] flex items-center justify-center gap-x-2"
+        onClick={handleFileUpload}
+      >
         <span>Upload</span>
       </button>
     </div>

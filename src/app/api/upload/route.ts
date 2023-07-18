@@ -1,5 +1,10 @@
 import { getServerSession } from "next-auth";
-import {options} from "../auth/[...nextauth]/options"
+import { options } from "../auth/[...nextauth]/options";
+import fs from "fs";
+
+interface TypedRequest extends Request {
+  files: FileList;
+}
 
 export async function GET(request: Request) {
   const session = await getServerSession(options);
@@ -15,4 +20,24 @@ export async function GET(request: Request) {
       status: 401,
     });
   }
+}
+
+export async function POST(request: Request) {
+
+  const formData = await request.formData();
+
+  const formDataEntryValues = Array.from(formData.values());
+  for (const formDataEntryValue of formDataEntryValues) {
+    console.log("formDataEntryValue", formDataEntryValue);
+    if (
+      typeof formDataEntryValue === "object" &&
+      "arrayBuffer" in formDataEntryValue
+    ) {
+      const file = formDataEntryValue as unknown as Blob;
+      const buffer = Buffer.from(await file.arrayBuffer());
+      fs.writeFileSync(`public/${file.name}`, buffer);
+    }
+  }
+
+  return NextResponse.json({ success: true });
 }
