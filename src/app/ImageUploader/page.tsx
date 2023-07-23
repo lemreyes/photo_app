@@ -16,9 +16,15 @@ export default function ImageUploader() {
     setUploadState("init");
   }, []);
 
+  const hdlUpdateUploadState = (newUploadState: string) => {
+    setUploadState(newUploadState);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen">
-      {uploadState === "init" && <Uploader />}
+      {uploadState === "init" && (
+        <Uploader hdlUpdateUploadState={hdlUpdateUploadState} />
+      )}
       {uploadState === "uploading" && <ProgressBar />}
       {uploadState === "complete" && <ResultCard result={uploadResult} />}
     </div>

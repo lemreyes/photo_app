@@ -2,7 +2,11 @@ import React, { ChangeEvent, DragEvent, useRef, useState } from "react";
 import Image from "next/image";
 import image_placeholder from "../../../../public/image_placeholder.svg";
 
-export default function Uploader() {
+export default function Uploader({
+  hdlUpdateUploadState,
+}: {
+  hdlUpdateUploadState: (newUploadState: string) => void;
+}) {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [srcPreview, setSrcPreview] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -31,6 +35,10 @@ export default function Uploader() {
     if (!imageFile) {
       return;
     }
+
+    // update upload state
+    hdlUpdateUploadState("uploading");
+
     console.log("Upload: ", imageFile);
 
     const body = new FormData();
@@ -41,6 +49,8 @@ export default function Uploader() {
       method: "POST",
       body,
     });
+
+    // 
   };
 
   const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {

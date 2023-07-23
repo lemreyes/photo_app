@@ -41,6 +41,7 @@ export async function POST(request: Request) {
   }
 
   const formDataEntryValues = Array.from(formData.values());
+  var picture = null;
   for (const formDataEntryValue of formDataEntryValues) {
     console.log("formDataEntryValue", formDataEntryValue);
     if (
@@ -66,7 +67,7 @@ export async function POST(request: Request) {
         });
       }
 
-      const picture = await prisma.picture.create({
+      picture = await prisma.picture.create({
         data: {
           source: `public/${file.name}`,
           owner: {
@@ -74,10 +75,20 @@ export async function POST(request: Request) {
           },
         },
       });
-
-      console.log("Picture: ", picture);
     }
   }
 
-  return NextResponse.json({ success: true });
+  console.log("Picture: ", picture);
+  if (!picture) {
+    return NextResponse.json({
+      status: 500,
+      errorMessage: "Upload has failed",
+    });
+  }
+
+  return NextResponse.json({
+    success: true,
+    id: picture.id,
+    source: picture.source,
+  });
 }
