@@ -50,7 +50,13 @@ export default function Uploader({
       body,
     });
 
-    // 
+    console.log("Response Upload: ", response);
+
+    const responseData = await response.json();
+    console.log("response data: ", responseData);
+
+    // update state
+    hdlUpdateUploadState("complete");
   };
 
   const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {

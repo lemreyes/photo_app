@@ -86,8 +86,9 @@ export async function POST(request: Request) {
     });
   }
 
+  console.log("Return picture id");
   return NextResponse.json({
-    success: true,
+    status: 200,
     id: picture.id,
     source: picture.source,
   });
