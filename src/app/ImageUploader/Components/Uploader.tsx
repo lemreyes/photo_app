@@ -4,8 +4,10 @@ import image_placeholder from "../../../../public/image_placeholder.svg";
 
 export default function Uploader({
   hdlUpdateUploadState,
+  hdlUpdateUploadResult,
 }: {
   hdlUpdateUploadState: (newUploadState: string) => void;
+  hdlUpdateUploadResult: (newUploadResult: UploadResult) => void;
 }) {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [srcPreview, setSrcPreview] = useState("");
@@ -39,8 +41,6 @@ export default function Uploader({
     // update upload state
     hdlUpdateUploadState("uploading");
 
-    console.log("Upload: ", imageFile);
-
     const body = new FormData();
     body.append("file", imageFile);
     console.log("BODY: ", body);
@@ -50,13 +50,15 @@ export default function Uploader({
       body,
     });
 
-    console.log("Response Upload: ", response);
-
     const responseData = await response.json();
     console.log("response data: ", responseData);
 
     // update state
     hdlUpdateUploadState("complete");
+    hdlUpdateUploadResult({
+      result: responseData.status === 200 ? true : false,
+      path: responseData.source,
+    });
   };
 
   const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {

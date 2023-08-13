@@ -7,10 +7,10 @@ import ResultCard from "./Components/ResultCard";
 
 export default function ImageUploader() {
   const [uploadState, setUploadState] = useState<string | undefined>("init");
-  let uploadResult: UploadResult = {
+  const [uploadResult, setUploadResult] = useState<UploadResult>({
     result: false,
     path: "",
-  };
+  });
 
   useEffect(() => {
     setUploadState("init");
@@ -20,10 +20,17 @@ export default function ImageUploader() {
     setUploadState(newUploadState);
   };
 
+  const hdlUpdateUploadResult = (uploadResult: UploadResult) => {
+    setUploadResult(uploadResult);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen">
       {uploadState === "init" && (
-        <Uploader hdlUpdateUploadState={hdlUpdateUploadState} />
+        <Uploader
+          hdlUpdateUploadState={hdlUpdateUploadState}
+          hdlUpdateUploadResult={hdlUpdateUploadResult}
+        />
       )}
       {uploadState === "uploading" && <ProgressBar />}
       {uploadState === "complete" && <ResultCard result={uploadResult} />}

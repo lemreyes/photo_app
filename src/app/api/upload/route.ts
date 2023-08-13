@@ -58,7 +58,6 @@ export async function POST(request: Request) {
           email: session.user?.email as string,
         },
       });
-      console.log("user: ", user);
 
       if (!user) {
         return NextResponse.json({
@@ -69,7 +68,7 @@ export async function POST(request: Request) {
 
       picture = await prisma.picture.create({
         data: {
-          source: `public/${file.name}`,
+          source: `${process.env.HOST_URL}${file.name}`,
           owner: {
             connect: { id: user.id },
           },
@@ -78,7 +77,6 @@ export async function POST(request: Request) {
     }
   }
 
-  console.log("Picture: ", picture);
   if (!picture) {
     return NextResponse.json({
       status: 500,
